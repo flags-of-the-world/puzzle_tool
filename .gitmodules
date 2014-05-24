@@ -1,0 +1,6 @@
+[submodule "vendor/rawImage.js"]
+	path = vendor/rawImage.js
+	url = https://github.com/tuzz/rawImage.js.git
+[submodule "vendor/floodFill.js"]
+	path = vendor/floodFill.js
+	url = https://github.com/tuzz/floodFill.js.git
