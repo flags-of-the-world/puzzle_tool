@@ -1,4 +1,5 @@
 require "sinatra"
+require "zip"
 require "base64"
 
 module Foo
@@ -10,7 +11,7 @@ end
 get "/" do
   flags = `ls public/assets/images/flags`.split.map { |s| s.split(".").first }
   lis = flags.map { |f| "<li class='#{Foo.exists?(f)}'><a href='/index.html?flag=#{f}'>#{f}</a></li>" }
-  "<style>.true { background-color: #aaffaa }</style>" + lis.join
+  "<style>.true { background-color: #aaffaa }</style>" + "<a href='/flags.zip'>Download flags</a><br/><br/>" + lis.join
 end
 
 post '/upload' do
@@ -36,8 +37,16 @@ post "/package" do
   end
 end
 
-get "/download" do
-  `zip -r public/flags.zip public/flags/`
+get "/flags.zip" do
+  directory = "public/flags/"
+  zipfile_name = "public/flags.zip"
+
+  Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
+    Dir[File.join(directory, '**', '**')].each do |file|
+      zipfile.add(file.sub(directory, ''), file)
+    end
+  end
+
   send_file "public/flags.zip"
 end
 
