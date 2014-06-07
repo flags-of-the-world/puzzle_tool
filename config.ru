@@ -32,8 +32,9 @@ post "/package" do
   `rm -rf public/flags/#{dir}`
   `mkdir public/flags/#{dir}`
 
+  binding.pry
   `ls public/flags/*.png`.split.each do |f|
-    `mv public/flags/#{f} public/flags/#{dir}/`
+    `mv #{f} public/flags/#{dir}/`
   end
 end
 
