@@ -36,4 +36,9 @@ post "/package" do
   end
 end
 
+get "/download" do
+  `zip -r public/flags.zip public/flags/`
+  send_file "public/flags.zip"
+end
+
 run Sinatra::Application
