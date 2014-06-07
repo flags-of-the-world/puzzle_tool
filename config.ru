@@ -38,6 +38,8 @@ post "/package" do
 end
 
 get "/flags.zip" do
+  `rm -f public/flags.zip`
+
   directory = "public/flags/"
   zipfile_name = "public/flags.zip"
 
