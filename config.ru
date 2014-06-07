@@ -1,6 +1,5 @@
 require "sinatra"
 require "base64"
-require "pry"
 
 module Foo
   def self.exists?(flag)
