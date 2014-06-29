@@ -9,7 +9,13 @@ var Application = function () {
     return results[1] || 0;
   }
 
-  var image = new RawImage("assets/images/flags/" + $.urlParam("flag") + ".svg");
+  var imageForFlag = function (name) {
+    var viewDimensions = { width: 560, height: 392 };
+    return new RawImage("assets/images/flags/" + name + ".svg", viewDimensions);
+  };
+
+  var flagName = $.urlParam("flag");
+  var image = imageForFlag(flagName);
   var white = { red: 255, green: 255, blue: 255, alpha: 255 };
   var black = { red: 0, green: 0, blue: 0, alpha: 255 };
   var transparent = { red: 0, green: 0, blue: 0, alpha: 0 };
@@ -244,8 +250,14 @@ var Application = function () {
       upload("" + (i + 1) + "-" + hex + ".png");
     }
 
-    package($.urlParam("flag"));
-    window.location = "/";
+    image = imageForFlag(flagName);
+    image.onload = function () {
+      image.render(canvas);
+      upload("original.png");
+
+      package($.urlParam("flag"));
+      window.location = "/";
+    };
   });
 
 
